@@ -39,16 +39,30 @@
           <form id="loginForm">
             <h3>Sign in</h3>
             <label for="loginEmail">Email address</label><input id="loginEmail" type="email" autocomplete="email" required>
-            <label for="loginPassword">Password</label><input id="loginPassword" type="password" autocomplete="current-password" required>
+            <label for="loginPassword">Password</label><div class="password-wrap"><input id="loginPassword" type="password" autocomplete="current-password" required><button class="password-toggle" type="button" data-password-toggle="loginPassword" aria-label="Show password" aria-pressed="false">Show</button></div><div class="form-extra"><button class="text-button" id="forgotPasswordLink" type="button">Forgot password?</button></div>
             <button class="primary full" type="submit">Log in</button>
           </form>
           <form id="registerForm" class="hidden">
             <h3>Create your account</h3>
             <label for="fullName">Full name</label><input id="fullName" autocomplete="name" required>
             <label for="registerEmail">Email address</label><input id="registerEmail" type="email" autocomplete="email" required>
-            <label for="registerPassword">Password</label><input id="registerPassword" type="password" minlength="8" autocomplete="new-password" required>
-            <p class="hint">Use at least 8 characters.</p>
+            <label for="registerPassword">Password</label><div class="password-wrap"><input id="registerPassword" type="password" minlength="8" autocomplete="new-password" required><button class="password-toggle" type="button" data-password-toggle="registerPassword" aria-label="Show password" aria-pressed="false">Show</button></div>
+            <p class="hint">At least 8 characters, including one number and one special character.</p>
             <button class="primary full" type="submit">Create account</button>
+          </form>
+          <form id="forgotForm" class="hidden">
+            <h3>Reset your password</h3>
+            <p class="muted">Enter the email address linked to your account. We’ll send you a password reset link.</p>
+            <label for="forgotEmail">Email address</label><input id="forgotEmail" type="email" autocomplete="email" required>
+            <button class="primary full" type="submit">Send reset link</button>
+            <div class="form-extra"><button class="text-button" id="backToLogin" type="button">Back to log in</button></div>
+          </form>
+          <form id="resetForm" class="hidden">
+            <h3>Choose a new password</h3>
+            <label for="newPassword">New password</label><div class="password-wrap"><input id="newPassword" type="password" minlength="8" autocomplete="new-password" required><button class="password-toggle" type="button" data-password-toggle="newPassword" aria-label="Show password" aria-pressed="false">Show</button></div>
+            <label for="confirmNewPassword">Confirm new password</label><div class="password-wrap"><input id="confirmNewPassword" type="password" minlength="8" autocomplete="new-password" required><button class="password-toggle" type="button" data-password-toggle="confirmNewPassword" aria-label="Show password" aria-pressed="false">Show</button></div>
+            <p class="hint">At least 8 characters, including one number and one special character.</p>
+            <button class="primary full" type="submit">Update password</button>
           </form>
           <p class="message" id="authMessage" role="status"></p>
         </section>
