@@ -6,15 +6,73 @@
   const message = (id, text) => { $(id).textContent = text || ""; };
   $("yearNow").textContent = new Date().getFullYear();
 
+  function showAuthForm(formId) {
+    ["loginForm", "registerForm", "forgotForm", "resetForm"].forEach((id) => show(id, id === formId));
+    show("loginTab", formId === "loginForm" || formId === "registerForm");
+    show("registerTab", formId === "loginForm" || formId === "registerForm");
+  }
+
   $("loginTab").addEventListener("click", () => {
-    show("loginForm", true); show("registerForm", false);
+    showAuthForm("loginForm");
     $("loginTab").classList.add("active"); $("registerTab").classList.remove("active");
     message("authMessage", "");
   });
   $("registerTab").addEventListener("click", () => {
-    show("loginForm", false); show("registerForm", true);
+    showAuthForm("registerForm");
     $("registerTab").classList.add("active"); $("loginTab").classList.remove("active");
     message("authMessage", "");
+  });
+
+  $("forgotPasswordLink").addEventListener("click", () => {
+    showAuthForm("forgotForm");
+    message("authMessage", "");
+  });
+  $("backToLogin").addEventListener("click", () => {
+    showAuthForm("loginForm");
+    message("authMessage", "");
+  });
+
+  document.querySelectorAll("[data-password-toggle]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const input = $(button.dataset.passwordToggle);
+      const reveal = input.type === "password";
+      input.type = reveal ? "text" : "password";
+      button.textContent = reveal ? "Hide" : "Show";
+      button.setAttribute("aria-label", reveal ? "Hide password" : "Show password");
+      button.setAttribute("aria-pressed", String(reveal));
+    });
+  });
+
+  function passwordIsValid(password) {
+    return password.length >= 8 && /[0-9]/.test(password) && /[^A-Za-z0-9]/.test(password);
+  }
+
+  $("forgotForm").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    message("authMessage", "Sending password reset email...");
+    const email = $("forgotEmail").value.trim();
+    const { error } = await client.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + window.location.pathname
+    });
+    if (error) return message("authMessage", error.message);
+    message("authMessage", "If an account exists for that email, a password reset link has been sent. Check your inbox.");
+  });
+
+  $("resetForm").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const password = $("newPassword").value;
+    const confirmation = $("confirmNewPassword").value;
+    if (!passwordIsValid(password)) {
+      return message("authMessage", "Password must be at least 8 characters and include a number and a special character.");
+    }
+    if (password !== confirmation) return message("authMessage", "The passwords do not match.");
+    message("authMessage", "Updating your password...");
+    const { error } = await client.auth.updateUser({ password });
+    if (error) return message("authMessage", error.message);
+    await client.auth.signOut();
+    $("resetForm").reset();
+    showAuthForm("loginForm");
+    message("authMessage", "Password updated. You can now log in with your new password.");
   });
 
   $("registerForm").addEventListener("submit", async (event) => {
@@ -23,8 +81,14 @@
     const fullName = $("fullName").value.trim();
     const email = $("registerEmail").value.trim();
     const password = $("registerPassword").value;
+    if (!passwordIsValid(password)) {
+      return message("authMessage", "Password must be at least 8 characters and include a number and a special character.");
+    }
     const { data, error } = await client.auth.signUp({
-      email, password, options: { data: { full_name: fullName } }
+      email, password, options: {
+        data: { full_name: fullName },
+        emailRedirectTo: window.location.origin + window.location.pathname
+      }
     });
     if (error) return message("authMessage", error.message);
     if (data.session) {
@@ -124,6 +188,18 @@
       "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
     })[char]);
   }
+
+  client.auth.onAuthStateChange((event, session) => {
+    if (event === "PASSWORD_RECOVERY") {
+      show("authCard", true);
+      show("studentCard", false);
+      showAuthForm("resetForm");
+      message("authMessage", "Enter and confirm your new password.");
+    } else if (event === "SIGNED_IN" && session?.user) {
+      showAuthForm("loginForm");
+      loadWorkspace(session.user);
+    }
+  });
 
   client.auth.getSession().then(({ data }) => {
     if (data.session?.user) loadWorkspace(data.session.user);
