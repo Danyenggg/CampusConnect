@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b5ed7">
+  <title>CampusConnect | NISU West Campus</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#"><span class="brand-mark">CC</span><span>CampusConnect<small>NISU West Campus</small></span></a>
+    <nav><a href="#about">About</a><a href="#portal">Student Portal</a></nav>
+  </header>
+  <main>
+    <section class="hero" id="about">
+      <div class="hero-copy">
+        <p class="eyebrow">NORTHERN ILOILO STATE UNIVERSITY · WEST CAMPUS</p>
+        <h1>Your campus<br><span>connected</span></h1>
+        <p class="lead">A central place for student applications and campus services.</p>
+        <a class="primary-link" href="#portal">Go to student portal</a>
+      </div>
+      <div class="hero-panel">
+        <div class="panel-symbol">CC</div>
+        <p class="panel-label">CAMPUSCONNECT</p>
+        <h2>Learn. Connect. Progress.</h2>
+        <p>Student portal access starts with account registration and approval.</p>
+      </div>
+    </section>
+
+    <section class="portal-section" id="portal">
+      <div class="section-heading"><p class="eyebrow">STUDENT ACCESS</p><h2>Welcome to CampusConnect</h2><p>Sign in or create an account to submit your student application.</p></div>
+      <div class="portal-grid">
+        <section class="card" id="authCard">
+          <div class="tabs"><button class="tab active" id="loginTab" type="button">Log in</button><button class="tab" id="registerTab" type="button">Register</button></div>
+          <form id="loginForm">
+            <h3>Sign in</h3>
+            <label for="loginEmail">Email address</label><input id="loginEmail" type="email" autocomplete="email" required>
+            <label for="loginPassword">Password</label><input id="loginPassword" type="password" autocomplete="current-password" required>
+            <button class="primary full" type="submit">Log in</button>
+          </form>
+          <form id="registerForm" class="hidden">
+            <h3>Create your account</h3>
+            <label for="fullName">Full name</label><input id="fullName" autocomplete="name" required>
+            <label for="registerEmail">Email address</label><input id="registerEmail" type="email" autocomplete="email" required>
+            <label for="registerPassword">Password</label><input id="registerPassword" type="password" minlength="8" autocomplete="new-password" required>
+            <p class="hint">Use at least 8 characters.</p>
+            <button class="primary full" type="submit">Create account</button>
+          </form>
+          <p class="message" id="authMessage" role="status"></p>
+        </section>
+
+        <section class="card status-card hidden" id="studentCard">
+          <div class="card-top"><div><p class="eyebrow">STUDENT WORKSPACE</p><h3 id="welcomeTitle">Welcome</h3></div><button class="text-button" id="logoutButton" type="button">Log out</button></div>
+          <div id="applicationArea">
+            <h4>Submit your student application</h4>
+            <p class="muted">Your account will remain pending until an administrator reviews your application.</p>
+            <form id="applicationForm">
+              <label for="studentNumber">Student number</label><input id="studentNumber" required>
+              <label for="programSelect">Program</label><select id="programSelect" required><option value="">Loading programs...</option></select>
+              <label for="yearLevel">Year level</label><select id="yearLevel" required><option value="">Select year level</option><option value="1">1st Year</option><option value="2">2nd Year</option><option value="3">3rd Year</option><option value="4">4th Year</option><option value="5">5th Year</option><option value="6">6th Year</option></select>
+              <label for="birthdate">Birthdate (optional)</label><input id="birthdate" type="date">
+              <button class="primary full" type="submit">Submit application</button>
+            </form>
+          </div>
+          <div id="applicationStatus" class="hidden"></div>
+          <p class="message" id="studentMessage" role="status"></p>
+        </section>
+      </div>
+    </section>
+  </main>
+  <footer>© <span id="yearNow"></span> CampusConnect · Northern Iloilo State University West Campus</footer>
+</body>
+</html>
