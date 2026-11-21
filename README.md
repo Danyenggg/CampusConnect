@@ -1,4 +1,4 @@
-# CampusConnect — NISU West Campus
+# CampusConnect — NISU West Campus 
 
 Initial static frontend for the CampusConnect student portal.
 
@@ -33,3 +33,5 @@ This is a static site and can be hosted with GitHub Pages. In the repository set
 - The application form does not upload documents yet.
 - Admin approval is handled in the Supabase backend; no admin dashboard is included in this starter.
 - Email confirmation behavior follows the Supabase Auth settings for the project.
+
+# Hi!
