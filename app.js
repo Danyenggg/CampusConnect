@@ -195,9 +195,6 @@
       show("studentCard", false);
       showAuthForm("resetForm");
       message("authMessage", "Enter and confirm your new password.");
-    } else if (event === "SIGNED_IN" && session?.user) {
-      showAuthForm("loginForm");
-      loadWorkspace(session.user);
     }
   });
 
