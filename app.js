@@ -147,7 +147,9 @@
       $("applicationStatus").innerHTML = '<div class="status-box"><span class="status-pill">' +
         escapeHtml(application.status.toUpperCase()) + '</span><h4>Application received</h4><p>Student number: ' +
         escapeHtml(application.student_number) + '</p><p>Program: ' +
-        escapeHtml(application.programs?.program_name || "—") + '</p><p>Your application is awaiting administrative review.</p></div>';
+        escapeHtml(application.programs?.program_name || "—") + '</p><p>Year level: ' +
+        escapeHtml(application.requested_year_level ? application.requested_year_level + (application.requested_year_level === 1 ? "st" : application.requested_year_level === 2 ? "nd" : application.requested_year_level === 3 ? "rd" : "th") + " Year" : "—") +
+        '</p><p>Your application is awaiting administrative review.</p></div>';
     } else if (profile.status === "active") {
       show("applicationForm", false);
       show("applicationStatus", true);
