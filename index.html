@@ -67,6 +67,16 @@
           <p class="message" id="authMessage" role="status"></p>
         </section>
 
+        <section class="card admin-card full-span hidden" id="adminCard">
+          <div class="card-top admin-top">
+            <div><p class="eyebrow">ADMINISTRATION</p><h3 id="adminWelcome">Admin dashboard</h3><p class="muted">Review and manage student applications.</p></div>
+            <div class="admin-controls"><button class="secondary-button" id="refreshApplications" type="button">Refresh</button><button class="text-button" id="adminLogoutButton" type="button">Log out</button></div>
+          </div>
+          <div class="admin-summary"><div><span class="summary-number" id="pendingCount">0</span><span class="summary-label">Pending applications</span></div></div>
+          <div id="adminApplications" class="admin-applications"><p class="muted">Loading applications...</p></div>
+          <p class="message" id="adminMessage" role="status"></p>
+        </section>
+
         <section class="card status-card hidden" id="studentCard">
           <div class="card-top"><div><p class="eyebrow">STUDENT WORKSPACE</p><h3 id="welcomeTitle">Welcome</h3></div><button class="text-button" id="logoutButton" type="button">Log out</button></div>
           <div id="applicationArea">
