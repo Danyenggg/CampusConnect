@@ -160,12 +160,17 @@
       show("applicationStatus", true);
       const year = Number(application.requested_year_level);
       const suffix = year === 1 ? "st" : year === 2 ? "nd" : year === 3 ? "rd" : "th";
+      const applicationNote = application.status === "approved"
+        ? "Your application has been approved. Your student account is active."
+        : application.status === "rejected"
+          ? "Your application was not approved. Please contact the campus administrator."
+          : "Your application is awaiting administrative review.";
       $("applicationStatus").innerHTML = '<div class="status-box"><span class="status-pill">' +
         escapeHtml(application.status.toUpperCase()) + '</span><h4>Application received</h4><p>Student number: ' +
         escapeHtml(application.student_number) + '</p><p>Program: ' +
         escapeHtml(application.programs?.program_name || "—") + '</p><p>Year level: ' +
         escapeHtml(year ? year + suffix + " Year" : "—") +
-        '</p><p>Your application is awaiting administrative review.</p></div>';
+        '</p><p>' + escapeHtml(applicationNote) + '</p></div>';
     } else if (profile.status === "active") {
       show("applicationForm", false);
       show("applicationStatus", true);
